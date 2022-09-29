@@ -49,10 +49,10 @@ class Seq2SeqGenerator:
         return [out['generated_text'] for out in self.pipe(args[0])]
 
 
-def preprocess(self, text):
+def preprocess(text):
     new_text = re.sub('[?]', '', text)  # remove question sign
     new_text = new_text.lower()
-    tokens = [self.morph.parse(token)[0].normal_form \
+    tokens = [morph.parse(token)[0].normal_form \
             for token in word_tokenize(new_text) \
             if token not in string.punctuation]
     return ' '.join(tokens)
