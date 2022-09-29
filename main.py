@@ -24,7 +24,7 @@ dp = Dispatcher(bot)
 
 @dp.message_handler(commands=['start', 'help'])
 async def send_welcome(message: types.Message):
-    message.reply(START_MESSAGE)
+    await message.reply(START_MESSAGE)
 
 
 @dp.message_handler()
@@ -35,14 +35,14 @@ async def on_msg(message: types.Message):
     # Check if message is question or a dish name
     if message_cls.isMessageQuestionCls.predict(text):
         responce = answering.answer_question(text)
-        message.answer.reply_text(responce)
+        await bot.send_message(message.from_user.id, responce)
     else:
-        message.answer.reply_text('🕓 Придумываю рецепт...')
+        await bot.send_message(message.from_user.id, '🕓 Придумываю рецепт...')
         text_en = translation.ru_en.translate(text.lower())[0].lower()
         recipe_en = recipe_factory.recipeFactory.generate_recipe(text_en)
         recipe = translation.translate_recipe_to_russian(recipe_en)
         responce = recipe.to_message()
-        message.answer.reply_text(responce)
+        await bot.send_message(message.from_user.id, responce)
 
 
 if __name__ == '__main__':
