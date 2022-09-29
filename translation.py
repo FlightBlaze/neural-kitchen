@@ -1,5 +1,6 @@
 import sacremoses
 import recipe_factory
+import device
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, pipeline
 
 
@@ -11,7 +12,8 @@ class Translator:
     def __init__(self, model_name):
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
-        self.pipe = pipeline(task='translation', model=self.model, tokenizer=self.tokenizer)
+        self.pipe = pipeline(task='translation', model=self.model,
+                             tokenizer=self.tokenizer, device=device.device)
     
     
     def translate(self, text):

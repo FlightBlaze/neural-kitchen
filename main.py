@@ -4,27 +4,18 @@ import recipe_factory
 import translation
 import message_cls
 import answering
+import config
 
 from aiogram import Bot, Dispatcher, executor, types
 
-TOKEN = '5483232182:AAE6RnbdIkqWCm-HpMMXzZkJ4T00q3d5hb4'
-START_MESSAGE_PARAHRAPHS = [
-    '🤖 Привет! Я твой повар и нейросеть.',
-    '🥑 Назови любое, пускай даже не существующее блюдо, а я придумаю рецепт.',
-    '❓ Также ты можешь задать мне любой вопрос по кулинарии.',
-    '🎨 Скоро я научусь рисовать блюда по их названиям и даже смогу сам придумать названия.',
-    '🤷‍♂️ Я могу нечайно сгенерировать неполный рецепт или дать неоднозначный ответ на вопрос, но это потому что я обучался всего 3 эпохи на небольшой выборке.'
-]
-START_MESSAGE = '\n\n'.join(START_MESSAGE_PARAHRAPHS)  # Join parahraphs with one empty line inbetween
-
 logging.basicConfig(level=logging.INFO)
 
-bot = Bot(token=TOKEN)
+bot = Bot(token=config.TOKEN)
 dp = Dispatcher(bot)
 
 @dp.message_handler(commands=['start', 'help'])
 async def send_welcome(message: types.Message):
-    await message.reply(START_MESSAGE)
+    await message.reply(config.START_MESSAGE)
 
 
 @dp.message_handler()
@@ -37,7 +28,7 @@ async def on_msg(message: types.Message):
         responce = answering.answer_question(text)
         await bot.send_message(message.from_user.id, responce)
     else:
-        await bot.send_message(message.from_user.id, '🕓 Придумываю рецепт...')
+        await bot.send_message(message.from_user.id, config.RECIPE_WAIT_MESSAGE)
         text_en = translation.ru_en.translate(text.lower())[0].lower()
         recipe_en = recipe_factory.recipeFactory.generate_recipe(text_en)
         recipe = translation.translate_recipe_to_russian(recipe_en)

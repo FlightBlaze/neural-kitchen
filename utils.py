@@ -4,6 +4,7 @@ from pymorphy2 import MorphAnalyzer
 import string
 import re
 import nltk
+import device
 
 
 nltk.download('punkt')
@@ -42,7 +43,8 @@ class Seq2SeqGenerator:
         self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
         self.pipe = pipeline(task='text2text-generation',
                              model=self.model,
-                             tokenizer=self.tokenizer)
+                             tokenizer=self.tokenizer,
+                             device=device.device)
     
 
     def __call__(self, *args, **kwd):
