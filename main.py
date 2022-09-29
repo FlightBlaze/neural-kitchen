@@ -49,7 +49,7 @@ def on_text(update: Update, context: CallbackContext) -> None:
         update.message.reply_text(responce)
     else:
         update.message.reply_text('🕓 Придумываю рецепт...')
-        text_en = translation.ru_en.translate(text)[0]
+        text_en = translation.ru_en.translate(text.lower())[0].lower()
         recipe_en = recipe_factory.recipeFactory.generate_recipe(text_en)
         recipe = translation.translate_recipe_to_russian(recipe_en)
         responce = recipe.to_message()

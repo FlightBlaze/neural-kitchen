@@ -20,7 +20,7 @@ class Recipe:
     
 
     def to_message(self):
-        str_title = f'**{utils.make_first_letter_capital(self.name.lower())}**'
+        str_title = utils.make_first_letter_capital(self.name.lower())
         str_ingredients = '\n'.join(decorate_ingredients(self.ingredients))  # Multiple lines
         str_steps = '\n'.join(decorate_steps(self.steps))
         return '\n\n'.join([str_title, str_ingredients, str_steps])
