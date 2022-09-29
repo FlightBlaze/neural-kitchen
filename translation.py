@@ -3,14 +3,14 @@ import recipe_factory
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, pipeline
 
 
-RU_EN_MODEL_NAME = 'facebook/wmt19-en-ru'
-EN_RU_MODEL_NAME = 'facebook/wmt19-ru_en'
+RU_EN_MODEL_NAME = 'facebook/wmt19-ru-en'
+EN_RU_MODEL_NAME = 'facebook/wmt19-en-ru'
 
 
 class Translator:
     def __init__(self, model_name):
-        self.tokenizer = AutoTokenizer.from_pretrained("facebook/wmt19-en-ru")
-        self.model = AutoModelForSeq2SeqLM.from_pretrained("facebook/wmt19-en-ru")
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
         self.pipe = pipeline(task='translation', model=self.model, tokenizer=self.tokenizer)
     
     
